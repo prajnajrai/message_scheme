@@ -37,31 +37,32 @@ class APIController extends Controller
     }
 
     public function receiveSms(Request $request){
-        if(!isset($request->mobilenumber) || !isset($request->message) || !isset($request->receivedon)){
+        if(!isset($request->number) || !isset($request->message) || !isset($request->datetime)){
             // return "Please provide 'mobilenumber', 'message', 'receivedon' parameters.";
         }
+
         // $a= json_encode($request->all());
         // $b = json_decode($a, TRUE);
 
         #Check for Valid Request URL.
 
-        // return $request->all();
+       //return $request->all();
 
         // $received_time = isset($request->receivedon) ? Carbon::createFromFormat('m/d/Y g:i:s A', $request->receivedon)->format('Y-m-d H:i:s') : null;
         //   return $received_time;
 
         $APP_ENV = env('APP_ENV', 'DEMO');
         $code = "";
-        if($APP_ENV=="DEMO"){
-            $split_message = explode(" ", $request->message);
-            if(isset($split_message[1])){
-                $code = $split_message[1];
-            }else{
-                $code = $request->message;
-            }
-        }else{
+        // if($APP_ENV=="DEMO"){
+        //     $split_message = explode(" ", $request->message);
+        //     if(isset($split_message[1])){
+        //         $code = $split_message[1];
+        //     }else{
+        //         $code = $request->message;
+        //     }
+        // }else{
             $code = $request->message;
-        }
+        // }
         
         $status = "VALID";
         $today = Carbon::now()->format('Y-m-d');
@@ -81,21 +82,53 @@ class APIController extends Controller
             $min = "0000001";
             $max = "1600000";
             $random_code = "FALSE";
-            $value = $code;
-            if(($min <= $value) && ($value <= $max)){
-                if(strlen($value)!=7){
-                    $status = "INVALID";
-                }else{
-                    $receivedSmsLog = ReceivedSmsLog::where('campaign_code', $value)->first();
-                    if(!is_null($receivedSmsLog)){
-                        $status = "REPEAT";
-                    }else{
-                        $status = "VALID";
-                    }
+
+
+            //A string containing two integer values.
+            $str = $code;
+            //Extract the numbers using the preg_match_all function.
+            preg_match_all('!\d+!', $str, $matches);
+            //Any matches will be in our $matches array
+            // return $matches[0];
+            if(count($matches[0])>0) {
+                foreach ($matches[0] as $key => $value) {
+                    // foreach ($match as $jkey => $value) {
+                       $code = $value;
+                        if(($min <= $value) && ($value <= $max)){
+                            if(strlen($value)!=7){
+                                $status = "INVALID";
+                            }else{
+                                $receivedSmsLog = ReceivedSmsLog::where('campaign_code', $value)->first();
+                                if(!is_null($receivedSmsLog)){
+                                    $status = "REPEAT";
+                                }else{
+                                    $status = "VALID";
+                                }
+                            }
+                        }else{
+                            $status = "INVALID";
+                        }
+                    // }
                 }
-            }else{
+            } else {
                 $status = "INVALID";
             }
+
+            // $value = $code;
+            // if(($min <= $value) && ($value <= $max)){
+            //     if(strlen($value)!=7){
+            //         $status = "INVALID";
+            //     }else{
+            //         $receivedSmsLog = ReceivedSmsLog::where('campaign_code', $value)->first();
+            //         if(!is_null($receivedSmsLog)){
+            //             $status = "REPEAT";
+            //         }else{
+            //             $status = "VALID";
+            //         }
+            //     }
+            // }else{
+            //     $status = "INVALID";
+            // }
         }
         
 
@@ -106,12 +139,13 @@ class APIController extends Controller
         #Store in DB
         $receivedSmsLog = new ReceivedSmsLog();
         $receivedSmsLog->campaign_id = $campaign->id;
-        $receivedSmsLog->sent_mobile = $request->mobilenumber;
+        $receivedSmsLog->sent_mobile = $request->number;
         $receivedSmsLog->campaign_code = $code;
         $receivedSmsLog->sms_content = $request->message;
         $receivedSmsLog->request_parameter = json_encode($request->all());
         #08\/08\/2019 11:48:36 AM
-        $received_time = isset($request->receivedon) ? Carbon::createFromFormat('m/d/Y g:i:s A', $request->receivedon)->format('Y-m-d H:i:s') : null;
+        $received_time = $request->datetime;
+//? Carbon::createFromFormat('m/d/Y g:i:s A', $request->datetime)->format('Y-m-d H:i:s') : null;
         $receivedSmsLog->received_time = $received_time;//Carbon::now();
         $receivedSmsLog->location = $request->location;
         $receivedSmsLog->status = $status;
@@ -152,7 +186,7 @@ class APIController extends Controller
 
         if($send_sms=="TRUE"){
             #send SMS here
-            $this->sendSMS($request->mobilenumber,$reply_sms_content,$client->sms_sender_username,$client->sms_sender_password);
+           $this->sendSMSTextLocal($client->sms_sender_password,$request->number,$client->sms_sender_username,$reply_sms_content);
 
             #Store in DB
             $send_sms_log = new SentSmsLog();

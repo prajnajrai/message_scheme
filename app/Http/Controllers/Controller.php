@@ -57,16 +57,16 @@ class Controller extends BaseController
         $this->curlSMSRequest($request_data,$request_url);
     }
 
-    public function sendSMSTest() {
+    public function sendSMSTextLocal($apiKeys, $numbers, $sender, $message) {
         // Account details
-    $apiKey = urlencode('NmI0ZDc3Nzc3MzRmNDI1MDUyNjE3ODMyNGI1NzQ2NTQ=');
+    $apiKey = urlencode($apiKeys); //'NmI0ZDc3Nzc3MzRmNDI1MDUyNjE3ODMyNGI1NzQ2NTQ='
     
     // Message details
-    $numbers = array(919964864032, 919844573780);
-    $sender = urlencode('600010');
+    // $numbers = explode(delimiter, string);
+    $sender = urlencode($sender);
     $message = rawurlencode('Hi there, thank you for sending your first test message from Textlocal. See how you can send effective SMS campaigns here: https://tx.gl/r/2nGVj/');
- 
-    $numbers = implode(',', $numbers);
+ // 
+    // $numbers = implode(',', $numbers);
  
     // Prepare data for POST request
     $data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
@@ -80,7 +80,7 @@ class Controller extends BaseController
     curl_close($ch);
     
     // Process your response here
-    echo $response;
+    return $response;
 
           // $apiKey = urlencode('NmI0ZDc3Nzc3MzRmNDI1MDUyNjE3ODMyNGI1NzQ2NTQ=');
   
