@@ -21,7 +21,7 @@ Route::group(['middleware'=>['cors']], function () { //APIKey
 	Route::get('get-hello', ['uses' => 'API\APIController@getHello'
     ]);
 
-    Route::get('receive-sms', ['uses' => 'API\APIController@receiveSms'
+    Route::post('receive-sms', ['uses' => 'API\APIController@receiveSms'
     ]);
 
     Route::get('test-send-sms', ['uses' => 'API\APIController@testSendSms'
