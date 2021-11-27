@@ -37,10 +37,12 @@ class APIController extends Controller
     }
 
     public function receiveSms(Request $request){
-        if(!isset($request->number) || !isset($request->message) || !isset($request->datetime)){
+        if(!isset($request->sender) || !isset($request->content) || !isset($request->rcvd)){
             // return "Please provide 'mobilenumber', 'message', 'receivedon' parameters.";
         }
 
+        //{"sender":"919964864032","content":"Testing this","inNumber":"919293211113","submit":"Submit","network":null,"email":"none","keyword":null,"comments":"Testing this","credits":"1004","msgId":"8436607156","rcvd":"2021-11-27 08:14:49","firstname":null,"lastname":null,"custom1":null,"custom2":null,"custom3":null}
+        
         // $a= json_encode($request->all());
         // $b = json_decode($a, TRUE);
 
@@ -54,14 +56,14 @@ class APIController extends Controller
         $APP_ENV = env('APP_ENV', 'DEMO');
         $code = "";
         // if($APP_ENV=="DEMO"){
-        //     $split_message = explode(" ", $request->message);
+        //     $split_message = explode(" ", $request->content);
         //     if(isset($split_message[1])){
         //         $code = $split_message[1];
         //     }else{
-        //         $code = $request->message;
+        //         $code = $request->content;
         //     }
         // }else{
-            $code = $request->message;
+            $code = $request->content;
         // }
         
         $status = "VALID";
@@ -139,12 +141,12 @@ class APIController extends Controller
         #Store in DB
         $receivedSmsLog = new ReceivedSmsLog();
         $receivedSmsLog->campaign_id = $campaign->id;
-        $receivedSmsLog->sent_mobile = $request->number;
+        $receivedSmsLog->sent_mobile = $request->sender;
         $receivedSmsLog->campaign_code = $code;
-        $receivedSmsLog->sms_content = $request->message;
+        $receivedSmsLog->sms_content = $request->content;
         $receivedSmsLog->request_parameter = json_encode($request->all());
         #08\/08\/2019 11:48:36 AM
-        $received_time = $request->datetime;
+        $received_time = $request->rcvd;
 //? Carbon::createFromFormat('m/d/Y g:i:s A', $request->datetime)->format('Y-m-d H:i:s') : null;
         $receivedSmsLog->received_time = $received_time;//Carbon::now();
         $receivedSmsLog->location = $request->location;
@@ -160,7 +162,7 @@ class APIController extends Controller
             if($random_code=="TRUE" && !is_null($campaign_code)){
                 // $campaign_code = new CampaignCodeList();
                 // $campaign_code->campaign_id = $campaign->id;
-                // $campaign_code->code = $request->message;
+                // $campaign_code->code = $request->content;
                 $campaign_code->status = 'USED';
                 $campaign_code->save();
             }
@@ -186,7 +188,7 @@ class APIController extends Controller
 
         if($send_sms=="TRUE"){
             #send SMS here
-           $this->sendSMSTextLocal($client->sms_sender_password,$request->number,$client->sms_sender_username,$reply_sms_content);
+           $this->sendSMSTextLocal($client->sms_sender_password,$request->sender,$client->sms_sender_username,$reply_sms_content);
 
             #Store in DB
             $send_sms_log = new SentSmsLog();
