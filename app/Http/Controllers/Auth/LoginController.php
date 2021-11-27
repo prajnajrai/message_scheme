@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -23,6 +26,21 @@ class LoginController extends Controller
     public function username()
     {
         return 'name';
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        $user = User::where('email', $request->name)
+            ->where('password', $request->password)
+            ->first();
+
+        if(!isset($user)){
+            return false;
+        }
+
+        Auth::login($user);
+
+        return true;
     }
 
     /**
