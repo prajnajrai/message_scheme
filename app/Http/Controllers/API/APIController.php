@@ -81,8 +81,11 @@ class APIController extends Controller
                 $status = "INVALID";
             }
         }else{
-            $min = "0000001";
-            $max = "1600000";
+            // $min = "0000001";
+            // $max = "1600000";
+
+            $min = "0001";
+            $max = "1000";
             $random_code = "FALSE";
 
 
