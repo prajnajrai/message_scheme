@@ -26,7 +26,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #313d78;
+  background-color: #918d8d;
   color: white;
 }
 
@@ -82,7 +82,7 @@
                             @endif
                           </select>
 
-                <button type="submit" class="btn btn-danger form-control">Search</button>
+                <button type="submit" class="btn btn-success form-control">Search</button>
 
                 </form>
 
@@ -183,7 +183,7 @@
         className: 'dt-buttons'
       },
       button: {
-        className: 'btn btn-primary'
+        className: 'btn btn-danger'
       }
     }
   }
