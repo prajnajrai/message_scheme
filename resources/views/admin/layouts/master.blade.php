@@ -26,7 +26,7 @@
 				<footer class="footer">
 					<div class="container-fluid">
 						<p class="copyright pull-right">
-							©2019 Powered By <a href="http://atconline.biz/" target="_blank">ATC Online</a>
+							
 						</p>
 					</div>
 				</footer>

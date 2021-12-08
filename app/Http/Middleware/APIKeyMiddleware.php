@@ -2,7 +2,7 @@
 /**
  * APIKeyMiddleware
  * @category    Middleware
- * @author      Prajna - ATC Online
+ * @author      
  */
 namespace App\Http\Middleware;
 
@@ -11,7 +11,7 @@ use Closure;
 /**
  * This middleware is to check the api key
  * @category     Middleware
- * @author       Prajna - ATC Online
+ * @author       
  */
 class APIKeyMiddleware
 {

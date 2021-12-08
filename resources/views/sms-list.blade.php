@@ -26,7 +26,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: #313d78;
   color: white;
 }
 
@@ -94,7 +94,7 @@
                         <thead>
                             <th>Sl. No</th>
                             <th>Mobile Number</th>
-                            {{--<th>Campaign Code</th>--}}
+                            <th>Campaign Code</th>
                             <th>SMS Message</th>
                             <th>Received Time</th>
                             <th>Location</th>
@@ -105,7 +105,7 @@
                                 <tr>
                                     <td>{{  ++$key }}</td>
                                     <td>{{  $list->sent_mobile }}</td>
-                                    {{--<td>{{  $list->campaign_code }}</td>--}}
+                                    <td>{{  $list->campaign_code }}</td>
                                     <td>{{  $list->sms_content }}</td>
                                     <td>{{  $list->received_time->format('d/m/Y h:i:s A') }}</td>
                                     <td>{{  $list->location }}</td>
