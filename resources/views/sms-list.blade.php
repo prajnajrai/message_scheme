@@ -97,7 +97,7 @@
                             <th>Campaign Code</th>
                             <th>SMS Message</th>
                             <th>Received Time</th>
-                            <th>Location</th>
+                            {{--<th>Location</th>--}}
                             <th>Status</th>
                         </thead>
                         <tbody>
@@ -108,7 +108,7 @@
                                     <td>{{  $list->campaign_code }}</td>
                                     <td>{{  $list->sms_content }}</td>
                                     <td>{{  $list->received_time->format('d/m/Y h:i:s A') }}</td>
-                                    <td>{{  $list->location }}</td>
+                                    {{--<td>{{  $list->location }}</td>--}}
                                     <td>{{  $list->status }}</td>
                                 </tr>
                             @endforeach

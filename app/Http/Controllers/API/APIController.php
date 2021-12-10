@@ -84,8 +84,8 @@ class APIController extends Controller
             // $min = "0000001";
             // $max = "1600000";
 
-            $min = "0001";
-            $max = "1000";
+            $min = "00000001";
+            $max = "50000000";
             $random_code = "FALSE";
 
 
