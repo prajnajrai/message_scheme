@@ -100,7 +100,7 @@ class APIController extends Controller
                     // foreach ($match as $jkey => $value) {
                        $code = $value;
                         if(($min <= $value) && ($value <= $max)){
-                            if(strlen($value)!=7){
+                            if(strlen($value)!=8){
                                 $status = "INVALID";
                             }else{
                                 $receivedSmsLog = ReceivedSmsLog::where('campaign_code', $value)->first();
