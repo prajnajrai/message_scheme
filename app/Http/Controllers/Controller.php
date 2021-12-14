@@ -64,7 +64,7 @@ class Controller extends BaseController
     // Message details
     // $numbers = explode(delimiter, string);
     $sender = urlencode($sender);
-    $message = rawurlencode('Hi there, thank you for sending your first test message from Textlocal. See how you can send effective SMS campaigns here: https://tx.gl/r/2nGVj/');
+   // $message = rawurlencode('Hi there, thank you for sending your first test message from Textlocal. See how you can send effective SMS campaigns here: https://tx.gl/r/2nGVj/');
  // 
     // $numbers = implode(',', $numbers);
  

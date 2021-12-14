@@ -179,13 +179,15 @@ class APIController extends Controller
 
             //Dear Customer, thank you for your participation. We will draw the winners on 0ct 31st, keep the empty pouch with you until results are announced. All the best. Thank you for using Sun premium SunflowerOil
 
-            $reply_sms_content = "Dear Customer, thank you for your participation. We will draw the winners on 0ct 31st, keep the empty pouch with you until results are announced. All the best. Thank you for using Sun Premium Sunflower Oil.";
+            //Dear Customer, %%|OTP^{"inputtype" : "text", "maxlength" : "30"}%%. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.
+
+            $reply_sms_content = "Dear Customer, thank you for your participation. We will draw the winners on 0ct 31st, keep the empty pouch with you until results are announced. All the best. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
         }elseif($status=='INVALID'){
-            $reply_sms_content = "Dear Customer, invalid code entered, please try again. Thank you for using Sun Premium SunflowerOil";
+            $reply_sms_content = "Dear Customer, invalid code entered, please try again. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
         }elseif($status=='REPEAT'){
-            $reply_sms_content = "Dear Customer, this code has been already used, please try with different code. Thank you for using Sun Premium Sunflower Oil.";
+            $reply_sms_content = "Dear Customer, this code has been already used, please try with different code. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
         }elseif($status=='EXPIRED'){
-            $reply_sms_content = "Dear Customer, sorry!!! The contest has been expired. Thank you for using Sun Premium Sunflower Oil.";
+            $reply_sms_content = "Dear Customer, sorry!!! The contest has been expired. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
             // $send_sms = "FALSE";
         }
 
@@ -254,9 +256,16 @@ class APIController extends Controller
     }
 
     public function searchReceievedSMSList(Request $request){
-        // return $request->all();
-        $fromdate = Carbon::createFromFormat('d-m-Y', $request->from_date)->format('Y/m/d');
-        $to_date = Carbon::createFromFormat('d-m-Y', $request->to_date)->format('Y/m/d');
+        return $request->all();
+        if(isset($request->from_date) && isset($request->to_date)){
+            $fromdate = Carbon::createFromFormat('d-m-Y', $request->from_date)->format('Y/m/d');
+            $to_date = Carbon::createFromFormat('d-m-Y', $request->to_date)->format('Y/m/d');
+        } else {
+            $fromdate = Carbon::now();
+            return  $fromdate;
+            $to_date = Carbon::now()->format('Y-m-d');
+        }
+        
         $status = $request->status;
 
         if($status=="ALL"){
@@ -273,9 +282,14 @@ class APIController extends Controller
             }
         }
         
-        $fromdate = $request->from_date;
-        $to_date = $request->to_date;
-
+        if(isset($request->from_date) && isset($request->to_date)){
+            $fromdate = $request->from_date;
+            $to_date = $request->to_date;
+        } else {
+            $fromdate = Carbon::now()->format('d-m-Y');
+            $to_date = Carbon::now()->format('d-m-Y');
+        }
+        
         return view('sms-list', compact('received_sms_list', 'fromdate', 'to_date', 'status'));
     }
 }
