@@ -181,13 +181,17 @@ class APIController extends Controller
 
             //Dear Customer, %%|OTP^{"inputtype" : "text", "maxlength" : "30"}%%. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.
 
-            $reply_sms_content = "Dear Customer, thank you for your participation. We will draw the winners on 0ct 31st, keep the empty pouch with you until results are announced. All the best. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            //$reply_sms_content = "Dear Customer, thank you for your participation. We will draw the winners on 0ct 31st, keep the empty pouch with you until results are announced. All the best. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            $reply_sms_content = "Dear Customer, keep empty pouch till results. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries."
         }elseif($status=='INVALID'){
-            $reply_sms_content = "Dear Customer, invalid code entered, please try again. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+           // $reply_sms_content = "Dear Customer, invalid code entered, please try again. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            $reply_sms_content = "Dear Customer, invalid code! please try again. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
         }elseif($status=='REPEAT'){
-            $reply_sms_content = "Dear Customer, this code has been already used, please try with different code. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            //$reply_sms_content = "Dear Customer, this code has been already used, please try with different code. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            $reply_sms_content = "Dear Customer, this code is used, try again. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries."
         }elseif($status=='EXPIRED'){
-            $reply_sms_content = "Dear Customer, sorry!!! The contest has been expired. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            //$reply_sms_content = "Dear Customer, The contest has been expired. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
+            $reply_sms_content = "Dear Customer, The contest has been expired. Thank you for using Sun Premium Sunflower Oil. Anagha Refineries.";
             // $send_sms = "FALSE";
         }
 
